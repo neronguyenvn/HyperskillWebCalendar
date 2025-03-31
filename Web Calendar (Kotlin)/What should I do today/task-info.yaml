@@ -1,7 +1,7 @@
 type: edu
 custom_name: What should I do today?
 files:
-  - name: resources/application.properties
+  - name: src/resources/application.properties
     visible: true
     learner_created: false
   - name: src/webCalendarSpring/Application.kt
@@ -13,6 +13,12 @@ files:
   - name: build.gradle
     visible: true
     learner_created: false
+  - name: src/webCalendarSpring/controller/CalendarController.kt
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/44350#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Mon, 31 Mar 2025 16:09:30 UTC"
 record: -1

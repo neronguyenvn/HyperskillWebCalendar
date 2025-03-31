@@ -44,9 +44,8 @@ test {
     jvmArgs '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
 }
 
-tasks.withType(KotlinCompile) {
+tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
         freeCompilerArgs = ['-Xjsr305=strict']
-        jvmTarget = "$hs.kotlin.javaVersion"
     }
 }
