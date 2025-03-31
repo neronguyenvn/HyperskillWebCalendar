@@ -1,0 +1,68 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>What about events that you have added to your calendar? We need to find a way to store and access them whenever you need. Use the Spring Data JPA extension to connect a database to your Spring Boot application. We will use Spring Data JPA to connect our Spring Boot application to an <code class="language-json">H2</code> database.</p>
+<p>To start working with Spring Data JPA, we need to add the necessary dependencies to our Gradle-based Spring Boot project:</p>
+<pre><code class="language-no-highlight">dependencies {
+    // ...
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // ...
+}</code></pre>
+<p>Next, we need to configure the database connection in the <code class="language-json">application.properties</code> file (they are already  added to the project):</p>
+<pre><code class="language-no-highlight">spring.datasource.url=jdbc:h2:file:../d
+spring.datasource.driverClassName=org.h2.Driver
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+spring.h2.console.enabled=true
+spring.h2.console.settings.trace=false
+spring.h2.console.settings.web-allow-others=false
+
+spring.jpa.show-sql=true
+</code></pre>
+<p>We also need to create an entity that represents a table in the database. For that, we create a class annotated with <code class="language-json">@Entity</code> and define fields with the appropriate JPA annotations. We can use the <code class="language-json">EventRepository</code> interface, which extends <code class="language-json">JpaRepository</code>, to perform CRUD operations. Now, we can save, delete, and update our data in the database. Also, we need to convert our object into JSON format to send it as a response. Spring Boot does this automatically when we return an object from a controller method.</p>
+<h5 id="objectives">Objectives</h5>
+<ol>
+<li>Create an <code class="language-json">Event</code> entity to save events to the database. The table should contain the following columns:
+
+    <ul>
+<li><code class="language-json">id</code> of the INTEGER type. It should be our <code class="language-json">PRIMARY KEY</code>. Its value will be incremented and generated automatically. Starting from 1. </li>
+<li><code class="language-json">event</code> of the VARCHAR type. It should be <code class="language-json">NOT NULL</code>.</li>
+<li><code class="language-json">date</code> of the DATE type. It should be <code class="language-json">NOT NULL</code>.</li>
+</ul>
+</li>
+<li>Your REST API should have the following features:
+    <ul>
+<li>POST request for the <code class="language-json">/event</code> endpoint should save the event to your database. It should require the same arguments as in the previous stage.</li>
+<li>GET request for the <code class="language-json">/event</code> endpoint should return all the events from the database.  If there are no events, it should return  the response status code  <code class="language-json">204 NO_CONTENT</code></li>
+<li>GET request for the <code class="language-json">/event/today</code> endpoint should return the list of today's events. </li>
+</ul>
+</li>
+</ol>
+<h5 id="examples">Examples</h5>
+<p><strong>Example 1</strong>:<strong> </strong><code class="language-json">GET</code><em> request for the /event endpoint</em></p>
+<p><em>Response:</em> <code class="language-json">200 OK</code></p>
+<p>Response body:</p>
+<pre><code class="language-json">[
+   {
+      "id":1,
+      "event":"Video conference",
+      "date":"2021-03-01"
+   },
+   {
+      "id":2,
+      "event":"Today's first event",
+      "date":"2021-02-28"
+   }
+]</code></pre>
+<p><strong>Example 2</strong>:<strong> </strong><code class="language-json">GET</code><em> request for the /event/today endpoint.</em></p>
+<p><em>Response:</em> <code class="language-json">200 OK</code></p>
+<p>Response body:</p>
+<pre><code class="language-json">[
+   {
+      "id":2,
+      "event":"Today's first event",
+      "date":"2021-02-28"
+   }
+]</code></pre>
+</div>

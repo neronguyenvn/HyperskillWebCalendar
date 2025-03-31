@@ -1,0 +1,17 @@
+type: edu
+files:
+  - name: resources/application.properties
+    visible: true
+    learner_created: false
+  - name: src/webCalendarSpring/Application.kt
+    visible: true
+    learner_created: false
+  - name: build.gradle
+    visible: true
+    learner_created: false
+  - name: test/WebCalendarSpringTest.java
+    visible: false
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/44351#comment
+status: Unchecked
+record: -1

@@ -1,0 +1,72 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>It's easy to forget essential things. Work meetings, doctor appointments, gym sessions, family gatherings, and parties with friends - there's so much to remember! Planning is also crucial for our calendar. We need to add some features like the ability to get a list of events for a specific time interval, find event information by an ID, and delete occurrences from the database. In Spring Boot, you can use the <code class="language-kotlin">@PathVariable</code> annotation to get variables from the request URL.</p>
+<pre><code class="language-kotlin">@GetMapping("/event/{id}")
+fun getEventById(@PathVariable("id") id: Long): ResponseEntity&lt;Event&gt; {
+    val event: Event? = eventRepository.findById(id)
+    if (event == null) {
+        return ResponseEntity(HttpStatus.NOT_FOUND)
+    }
+    return ResponseEntity(event, HttpStatus.OK)
+}</code></pre>
+<p>In the example above, we get a Long value from the request URL and return the Event object as a response. If the event does not exist, it will return the 404 status code.</p>
+<p>Sometimes, you need to return an error message if something is wrong. You can use the ResponseEntity object to send a response with a given status code and a message.</p>
+<h5 id="objectives">Objectives</h5>
+<p>In this stage, add a resource with the <em>/event/&lt;int:id&gt; </em>URL. It should handle the following requests:</p>
+<ul>
+<li>A <code class="language-kotlin">GET</code> request should return the event with the ID in JSON format. If an event doesn't exist, return <code class="language-kotlin">404</code> with the following message: <code class="language-kotlin">The event doesn't exist!</code></li>
+<li>A <code class="language-kotlin">DELETE</code> request should delete the event with the given ID and respond with the following response body<em> </em>with the information on the deleted event:
+    <pre><code class="language-json">{
+    "id":1,
+    "event":"Video conference",
+    "date":"2020-10-15"
+}</code></pre>
+    If the event with the ID doesn't exist, return <code class="language-kotlin">404</code> with the message <code class="language-kotlin">The event doesn't exist!</code></li>
+<li>A <code class="language-kotlin">GET</code> request for the <em>/event </em>endpoint with <code class="language-kotlin">start_time</code> and <code class="language-kotlin">end_time</code> parameters should return a list of events for the given time range. If the arguments are missing, return the list of all events.</li>
+<li>The URLs from the previous stage should work in the same way.</li>
+</ul>
+<h5 id="examples">Examples</h5>
+<p><strong>Example 1</strong>: <code class="language-kotlin">GET</code><em> request for the /event?start_time=2020-10-10&amp;end_time=2020-10-20 endpoint</em></p>
+<p>Response Body:</p>
+<p><em>Response:</em> <code class="language-kotlin">200 OK</code></p>
+<pre><code class="language-json">[
+   {
+      "id":1,
+      "event":"Video conference",
+      "date":"2020-10-15"
+   },
+   {
+      "id":2,
+      "event":"Today's first event",
+      "date":"2020-10-20"
+   }
+]</code></pre>
+<p><strong>Example 2</strong>: <code class="language-kotlin">GET</code><em> request for the /event/1 endpoint</em></p>
+<p><em>Response:</em> <code class="language-kotlin">200 OK</code></p>
+<p>Response Body:</p>
+<pre><code class="language-json">{
+    "id":1,
+    "event":"Video conference",
+    "date":"2020-10-15"
+}</code></pre>
+<p><strong>Example 3</strong>: <code class="language-kotlin">GET</code><em> request for the /event/10 endpoint</em></p>
+<p><em>Response:</em> <code class="language-kotlin">404 Not Found</code></p>
+<p>Response Body:</p>
+<pre><code class="language-json">{
+    "message": "The event doesn't exist!"
+}</code></pre>
+<p><strong>Example 4</strong>: <code class="language-kotlin">DELETE</code><em> request for the /event/1 endpoint</em></p>
+<p><em>Response:</em> <code class="language-kotlin">200 OK</code></p>
+<p>Response Body:</p>
+<pre><code class="language-json">{
+    "id":1,
+    "event":"Video conference",
+    "date":"2020-10-15"
+}</code></pre>
+<p><strong>Example 5</strong>: <code class="language-kotlin">DELETE</code><em> request for the /event/10 endpoint</em></p>
+<p><em>Response:</em> <code class="language-kotlin">404 Not Found</code></p>
+<p>Response Body:</p>
+<pre><code class="language-json">{
+    "message": "The event doesn't exist!"
+}</code></pre>
+</div>

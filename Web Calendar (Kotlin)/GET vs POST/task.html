@@ -1,0 +1,44 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>Let's add the ability to handle <code class="language-json">POST</code> requests from the user side and parse their arguments. To parse the arguments from the <code class="language-json">POST</code> request, use the <code class="language-json">@RequestBody</code> annotation. This annotation indicates a method parameter should be bound to the body of the web request. The body of the request is passed through an <code class="language-json">HttpMessageConverter</code> to resolve the method argument depending on the content type of the request.</p>
+<h5 id="objectives">Objectives</h5>
+<p>Create a new resource to handle <code class="language-json">POST</code> requests for the <em>/event </em>endpoint. It must require the following arguments in the request body:</p>
+<ul>
+<li>An <code class="language-json">event</code> argument of the String type. </li>
+<li>A <code class="language-json">date</code> argument of the <code class="language-json">LocalDate</code> type. The correct format is <code class="language-json">YYYY-MM-DD</code>. </li>
+</ul>
+<p>If a user sends the correct response, display the following message: <code class="language-json">The event has been added!</code>, and show the user data:</p>
+<pre><code class="language-json">{
+    "message": "The event has been added!",
+    "event": "Client event name",
+    "date": "Client date"
+}</code></pre>
+<h5 id="examples">Examples</h5>
+<p><strong>Example 1</strong>: <em>Wrong </em><code class="language-json">POST</code> <em>request for the /event endpoint</em></p>
+<p>Request body:</p>
+<pre><code class="language-json">{
+    "date": "2021-02-10"
+}</code></pre>
+<p><em>Response:</em> <code class="language-json">400 Bad Request</code></p>
+<p>No Response body:</p>
+<p><strong>Example 2</strong>: <em>Wrong </em><code class="language-json">POST</code><em> request for the /event endpoint</em></p>
+<p>Request body:</p>
+<pre><code class="language-json">{
+    "event": "Video conference"
+}</code></pre>
+<p><em>Response:</em> <code class="language-json">400 Bad Request</code></p>
+<p>No Response body:</p>
+<p><strong>Example 3</strong>: С<em>orrect</em> <code class="language-json">POST</code> <em>request for the /event endpoint</em></p>
+<p>Request body:</p>
+<pre><code class="language-json">{
+    "event": "Video conference",
+    "date": "2020-11-15"
+}</code></pre>
+<p><em>Response:</em> <code class="language-json">200 OK</code></p>
+<p>Response body:</p>
+<pre><code class="language-json">{
+    "message": "The event has been added!",
+    "event": "Video conference",
+    "date": "2020-11-15"
+}</code></pre>
+</div>

@@ -1,0 +1,14 @@
+type: hyperskill
+title: Web Calendar (Kotlin)
+language: English
+summary: "<p>These days, our lives are hectic and eventful. It's tough to keep track\
+  \ of everything that happens around us. Let's create a web calendar to store and\
+  \ manage all upcoming events. Use the Spring Boot framework and create a REST API\
+  \ to save and manage events. The Spring Boot framework allows you to start a web\
+  \ application with a minimal setup.</p><br/><br/>Learn more at <a href=\"https://hyperskill.org/projects/442?utm_source=ide&utm_medium=ide&utm_campaign=ide&utm_content=project-card\"\
+  >https://hyperskill.org/projects/442</a>"
+programming_language: Kotlin
+content:
+  - Web Calendar (Kotlin)
+mode: Study
+yaml_version: 2

@@ -1,0 +1,298 @@
+hyperskill_project:
+  id: 442
+  ide_files: https://hyperskill.org/api/projects/442/additional-files/additional_files.json
+  is_template_based: false
+  use_ide: true
+update_date: "Mon, 31 Mar 2025 15:14:29 UTC"
+stages:
+  - id: 2573
+    step: 44350
+    is_completed: false
+  - id: 2574
+    step: 44351
+    is_completed: false
+  - id: 2575
+    step: 44352
+    is_completed: false
+  - id: 2576
+    step: 44353
+    is_completed: false
+topics:
+  0:
+    - title: "Write, compile, and run"
+      theory_id: 3739
+    - title: "Basic terms: JVM, JRE, JDK"
+      theory_id: 3499
+    - title: Operating systems
+      theory_id: 9704
+    - title: Command line overview
+      theory_id: 8977
+    - title: Parameters and options
+      theory_id: 9746
+    - title: World Wide Web
+      theory_id: 6633
+    - title: "HTTP: HyperText Transfer Protocol"
+      theory_id: 6569
+    - title: Spring and Spring Boot frameworks
+      theory_id: 7944
+    - title: Getting started with Spring Boot
+      theory_id: 6336
+    - title: Basic project structure
+      theory_id: 6339
+    - title: IoC Container
+      theory_id: 16851
+    - title: Spring beans
+      theory_id: 14641
+    - title: Spring components
+      theory_id: 14652
+    - title: '@Bean vs @Component'
+      theory_id: 14771
+    - title: ApplicationContext
+      theory_id: 22062
+    - title: Scopes of beans
+      theory_id: 19487
+    - title: Bean lifecycle
+      theory_id: 19550
+    - title: Spring Stereotypes
+      theory_id: 38935
+    - title: HTTP URL
+      theory_id: 6740
+    - title: Introduction to Spring Web MVC
+      theory_id: 13611
+    - title: HTTP messages
+      theory_id: 6752
+    - title: REST
+      theory_id: 7834
+    - title: Postman
+      theory_id: 8512
+    - title: Introduction to Spring Data
+      theory_id: 16299
+    - title: "CRUD Repositories: Create and Read"
+      theory_id: 38290
+    - title: "CRUD Repositories: Update and Delete"
+      theory_id: 38918
+    - title: Exception handling in Spring Boot
+      theory_id: 8780
+    - title: Application layers
+      theory_id: 13971
+    - title: Introduction to Kotlin
+      theory_id: 4350
+    - title: "Basic literals: numbers, strings and characters"
+      theory_id: 4351
+    - title: Writing first program
+      theory_id: 4362
+    - title: Values and variables
+      theory_id: 4371
+    - title: Constants and val variables
+      theory_id: 17408
+    - title: Data types
+      theory_id: 4388
+    - title: Comments
+      theory_id: 4406
+    - title: Kotlin style guide. Coding conventions
+      theory_id: 4419
+    - title: Naming variables
+      theory_id: 4389
+    - title: Standard output
+      theory_id: 4425
+    - title: Invoking functions
+      theory_id: 4575
+    - title: Standard input with Java Scanner
+      theory_id: 4445
+    - title: String basics
+      theory_id: 12553
+    - title: String templates
+      theory_id: 4547
+    - title: Boolean type and operations. True and false
+      theory_id: 4515
+    - title: Arithmetic operations
+      theory_id: 4472
+    - title: Increment and decrement
+      theory_id: 10776
+    - title: What is object-oriented programming
+      theory_id: 3614
+    - title: Build tools
+      theory_id: 4284
+    - title: JAR files
+      theory_id: 4311
+    - title: "Gradle: overview"
+      theory_id: 5075
+    - title: Basic project with Gradle
+      theory_id: 5077
+    - title: Building apps using Gradle
+      theory_id: 7917
+    - title: Gradle build configuration
+      theory_id: 35988
+    - title: "Dependency management: repositories"
+      theory_id: 37189
+    - title: Properties of basic types
+      theory_id: 4455
+    - title: Type conversion
+      theory_id: 4672
+    - title: Reading data with readln
+      theory_id: 11224
+    - title: "When different types meet: type coercion"
+      theory_id: 9506
+    - title: Integers in action
+      theory_id: 4488
+    - title: Comparing numbers. Relational operators
+      theory_id: 4525
+    - title: Declaring functions
+      theory_id: 4580
+    - title: If expression
+      theory_id: 4625
+    - title: Errors in programs
+      theory_id: 11559
+    - title: Nullable and non-nullable types
+      theory_id: 7613
+    - title: Objects and their properties
+      theory_id: 11233
+    - title: Declaring classes
+      theory_id: 6200
+    - title: Ranges
+      theory_id: 4633
+    - title: When expression
+      theory_id: 4631
+    - title: Functional decomposition
+      theory_id: 12668
+    - title: Default arguments
+      theory_id: 4637
+    - title: Named arguments
+      theory_id: 4640
+    - title: Constructors
+      theory_id: 10740
+    - title: Member functions
+      theory_id: 6364
+    - title: External resources
+      theory_id: 6216
+    - title: Web development
+      theory_id: 13931
+    - title: Libraries
+      theory_id: 8504
+    - title: Frameworks
+      theory_id: 6701
+    - title: Concept of design patterns
+      theory_id: 3611
+    - title: What are bugs
+      theory_id: 5504
+    - title: Functional testing
+      theory_id: 13438
+    - title: Unit testing
+      theory_id: 7545
+    - title: Dependency injection
+      theory_id: 20580
+    - title: Introduction to software architecture
+      theory_id: 15368
+    - title: Class Diagrams
+      theory_id: 15588
+    - title: Interfaces
+      theory_id: 9640
+    - title: YAML
+      theory_id: 12722
+    - title: Code organization. Design principles
+      theory_id: 8956
+    - title: Coupling and cohesion
+      theory_id: 21478
+    - title: Visibility modifiers for members
+      theory_id: 31660
+    - title: What are databases
+      theory_id: 8497
+    - title: Encapsulation
+      theory_id: 8519
+    - title: Property accessors
+      theory_id: 10511
+    - title: Relational Data Model
+      theory_id: 13785
+    - title: JSON
+      theory_id: 6854
+    - title: XML
+      theory_id: 6901
+    - title: Data and object mapping
+      theory_id: 8262
+    - title: Object-Relational Mapping (ORM)
+      theory_id: 8312
+    - title: Introduction to JPA
+      theory_id: 17125
+    - title: Introduction to API
+      theory_id: 17007
+    - title: Packages and imports
+      theory_id: 28800
+    - title: "Visibility for classes, packages, and modules"
+      theory_id: 28849
+    - title: Getting data from REST
+      theory_id: 13287
+    - title: Posting and deleting data via REST
+      theory_id: 13292
+    - title: Handling requests with bodies
+      theory_id: 13334
+    - title: Exception
+      theory_id: 7243
+    - title: Hierarchy of exceptions
+      theory_id: 13264
+    - title: Taming exceptions
+      theory_id: 7601
+    - title: Try-catch statement
+      theory_id: 10622
+    - title: Creational design patterns
+      theory_id: 16251
+    - title: Factory Method and Prototype
+      theory_id: 16430
+    - title: MVC
+      theory_id: 17197
+    - title: Entities
+      theory_id: 18135
+  1:
+    - title: Bean validation
+      theory_id: 9355
+    - title: Date and time standards
+      theory_id: 19467
+    - title: "Loops: repeat statement"
+      theory_id: 4643
+    - title: Structural vs referential equality
+      theory_id: 11236
+    - title: Work with MutableLists
+      theory_id: 14902
+    - title: Unicode
+      theory_id: 7899
+    - title: Characters. Char type
+      theory_id: 4680
+    - title: Working with strings
+      theory_id: 12561
+    - title: Introduction to collections
+      theory_id: 10390
+    - title: List
+      theory_id: 10730
+    - title: For loop and ranges
+      theory_id: 4652
+    - title: For loop and lists
+      theory_id: 15022
+    - title: Getting substrings
+      theory_id: 8535
+    - title: Processing strings
+      theory_id: 9027
+    - title: Enum
+      theory_id: 6245
+    - title: The try-catch-finally statement
+      theory_id: 11809
+    - title: Kotlinx datetime library
+      theory_id: 19456
+    - title: Local date and time
+      theory_id: 19496
+  2:
+    - title: Hexadecimal numbers
+      theory_id: 8788
+    - title: Units of information
+      theory_id: 6865
+    - title: UUID
+      theory_id: 31404
+    - title: JPA relationships
+      theory_id: 17787
+    - title: Cascade operations
+      theory_id: 27502
+    - title: Entity ID
+      theory_id: 26281
+  3:
+    - title: Advanced exception handling in Spring Boot
+      theory_id: 19855
+    - title: Customizing REST responses
+      theory_id: 33247
