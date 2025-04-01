@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -12,7 +13,7 @@ import webCalendarSpring.ApplicationKt;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import static org.hyperskill.hstest.common.JsonUtils.getJson;
 import static org.hyperskill.hstest.testing.expect.Expectation.expect;
@@ -42,78 +43,72 @@ class EventForTest {
 
 }
 
-
 public class WebCalendarSpringTest extends SpringTest {
-    private static List<EventForTest> eventsList = new ArrayList<>();
+    EventForTest eventForTest;
+
     int count = 0;
 
     public WebCalendarSpringTest() {
 
-        super(ApplicationKt.class);
+        super(ApplicationKt.class, "../d.mv.db");
 
     }
 
     public static final String todayEndPoint = "/event/today";
 
+    public static final String eventEndPoint = "/event";
 
-    CheckResult testEndpoint(String url, int status) {
-        HttpResponse response = get(url).send();
+    private static final Gson gson = new Gson();
 
-        checkStatusCode(response, status);
+    private static List<EventForTest> eventsList = new ArrayList<>();
+    Map<String, String> justToday = Map.of(
+            "event", "Today is a good Day ",
+            "date", LocalDate.now().toString());
+    Map<String, String> newYear = Map.of(
+            "event", "New Year's Day",
+            "date", "2024-01-01");
+    Map<String, String> goodFriday = Map.of(
+            "event", "Good Friday",
+            "date", "2023-04-07");
+    Map<String, String> janHusDay = Map.of(
+            "event", "Jan Hus Day",
+            "date", "2023-07-06");
 
-        if (!response.getJson().isJsonArray()) {
-            return CheckResult.wrong("Wrong object in response, expected JSON Array but was \n" +
-                    response.getContent().getClass());
+    Map<String, String> justaPerfectDay = Map.of(
+            "event", "Perfect Day",
+            "date", randomDate(-20, 15));
+    Map<String, String> anotherGoodDay = Map.of(
+            "event", "Another Good Day",
+            "date", randomDate(-10, 5));
+    List<Map<String, String>> listOfEvents = new ArrayList<>();
 
-        }
+    {
+        listOfEvents.add(newYear);
+        listOfEvents.add(goodFriday);
+        listOfEvents.add(janHusDay);
+        listOfEvents.add(justaPerfectDay);
+        listOfEvents.add(anotherGoodDay);
 
-        System.out.println(response.getContent() + "\n " + response.getStatusCode() +
-                "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
-
-
-        List<String> eventsToString;
-
-
-        eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
-
-
-        eventsToString.stream().forEach(System.out::println);
-
-        String convertJsonToString = convert(eventsToString);
-        JsonArray correctJson = getJson(convertJsonToString).getAsJsonArray();
-
-        JsonArray responseJson = getJson(response.getContent()).getAsJsonArray();
-
-        if (responseJson.size() != correctJson.size()) {
-            return CheckResult.wrong("Correct json array size should be " +
-                    correctJson.size() + "\n" +
-                    "Response array size is: " + responseJson.size() + "\n");
-        }
-
-
-        for (int i = 0; i < responseJson.size(); i++) {
-
-
-            expect(responseJson.get(i).getAsJsonObject().toString()).asJson()
-                    .check(isObject()
-                            .value("id", correctJson.get(i).getAsJsonObject().get("id").getAsInt())
-                            .value("event", correctJson.get(i).getAsJsonObject().get("event").getAsString())
-                            .value("date", correctJson.get(i).getAsJsonObject().get("date").getAsString()));
-
-        }
-
-
-        return CheckResult.correct();
     }
 
-    private String convert(List<String> trs) {
-        JsonArray jsonArray = new JsonArray();
-        for (String tr : trs) {
-            JsonElement jsonObject = JsonParser.parseString(tr);
-            jsonArray.add(jsonObject);
-        }
-        return jsonArray.toString();
-    }
+    Map<String, String> emptyEvent1 = Map.of("event", "", "date", LocalDate.now().toString());
+    Map<String, String> blankEvent2 = Map.of("event", "     ", "date", LocalDate.now().toString());
+
+    Map<String, String> nullEvent3 = Map.of("date", LocalDate.now().toString());
+
+    Map<String, String> nullDate4 = Map.of("event", "New Year Party");
+    Map<String, String> emptyEventNullDate5 = Map.of("event", "");
+
+    Map<String, String> emptyEventEmptyDate6 = Map.of("event", "", "date", "");
+
+    Map<String, String> blankDateEmptyEvent7 = Map.of("date", "    ", "event", "");
+
+    Map<String, String> blankDate8 = Map.of("date", "    ", "event", "New Year Party");
+    Map<String, String> blankDate9 = Map.of("event", "New Year Party", "date", "    ");
+
+    Map<String, String> emptyDate10 = Map.of("date", "", "event", "New Year Party");
+    Map<String, String> emptyDate11 = Map.of("event", "New Year Party", "date", "");
+
 
     private static void checkStatusCode(HttpResponse resp, int status) {
         if (resp.getStatusCode() != status) {
@@ -127,12 +122,89 @@ public class WebCalendarSpringTest extends SpringTest {
         }
     }
 
+    private String convert(List<String> trs) {
+        JsonArray jsonArray = new JsonArray();
+        for (String tr : trs) {
+            JsonElement jsonObject = JsonParser.parseString(tr);
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toString();
+    }
+
+
+    CheckResult testPostEvent(Map<String, String> body, int status) {
+
+        String jsonBody = gson.toJson(body);
+
+        HttpResponse response = post(eventEndPoint, jsonBody).send();
+        checkStatusCode(response, status);
+        System.out.println(response.getContent() + "\n " + response.getStatusCode() + "\n "
+                + response.getRequest().getLocalUri() + " \n" + response.getRequest().getMethod()
+                + " \n" + response.getRequest().getContent());
+        if (status == 200) {
+            count++;
+            EventForTest event = new EventForTest(count, body.get("event"), body.get("date"));
+            eventsList.add(event);
+            expect(response.getContent()).asJson()
+                    .check(
+
+                            isObject()
+                                    .value("message", "The event has been added!")
+                                    .value("event", getJson(jsonBody).getAsJsonObject().get("event").getAsString())
+                                    .value("date", getJson(jsonBody).getAsJsonObject().get("date").getAsString())
+
+                    );
+        }
+
+        if (status == 400 && String.valueOf(response.getContent()).length() != 0) {
+
+            throw new WrongAnswer(response.getRequest().getMethod() + " " +
+                    response.getRequest().getLocalUri() +
+                    " responded with status code " + status + " and empty Response body, " +
+                    "responded: " + response.getStatusCode() +
+                    " Response body: " + response.getContent());
+        }
+
+
+        return CheckResult.correct();
+    }
+
+    private int randomReturn(List<Map<String, String>> list) {
+        int toReturn = (int) Math.round(Math.random() * (list.size() - 1));
+        System.out.println(toReturn);
+
+        return toReturn;
+    }
+
+    private String randomDate(int maxDays, int mindays) {
+
+        LocalDate now = LocalDate.now();
+
+        return now.plusDays((int) Math.round(Math.random() * (maxDays - mindays) + mindays)).toString();
+    }
 
     @DynamicTest
     DynamicTesting[] dynamicTests = new DynamicTesting[]{
 
 
-            () -> testEndpoint(todayEndPoint, 200), //#1
+            () -> testPostEvent(justToday, 200), //#1
+            () -> testPostEvent(justToday, 200), //#2
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#3
+
+
+            //incorrect body for Post request
+            () -> testPostEvent(emptyEvent1, 400), //#4
+            () -> testPostEvent(blankEvent2, 400), //#5
+            () -> testPostEvent(nullEvent3, 400), //#6
+            () -> testPostEvent(nullDate4, 400), //#7
+            () -> testPostEvent(emptyEventNullDate5, 400), //#8
+            () -> testPostEvent(emptyEventEmptyDate6, 400), //#9
+            () -> testPostEvent(blankDateEmptyEvent7, 400), //#10
+            () -> testPostEvent(blankDate8, 400), //#11
+            () -> testPostEvent(blankDate9, 400), //#12
+            () -> testPostEvent(emptyDate10, 400), //#13
+            () -> testPostEvent(emptyDate11, 400), //#14
+
 
     };
 
