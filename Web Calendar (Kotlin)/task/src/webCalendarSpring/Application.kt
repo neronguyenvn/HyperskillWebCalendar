@@ -10,4 +10,3 @@ class WebCalenderApplication
 fun main(args: Array<String>) {
     runApplication<WebCalenderApplication>(*args)
 }
-

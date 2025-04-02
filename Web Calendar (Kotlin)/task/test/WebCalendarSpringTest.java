@@ -1,23 +1,27 @@
+import static org.hyperskill.hstest.common.JsonUtils.getJson;
+import static org.hyperskill.hstest.testing.expect.Expectation.expect;
+import static org.hyperskill.hstest.testing.expect.json.JsonChecker.isObject;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
 import org.hyperskill.hstest.dynamic.DynamicTest;
 import org.hyperskill.hstest.dynamic.input.DynamicTesting;
 import org.hyperskill.hstest.exception.outcomes.WrongAnswer;
 import org.hyperskill.hstest.mocks.web.response.HttpResponse;
 import org.hyperskill.hstest.stage.SpringTest;
 import org.hyperskill.hstest.testcase.CheckResult;
-import webCalendarSpring.ApplicationKt;
+import org.junit.Before;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import static org.hyperskill.hstest.common.JsonUtils.getJson;
-import static org.hyperskill.hstest.testing.expect.Expectation.expect;
-import static org.hyperskill.hstest.testing.expect.json.JsonChecker.isObject;
+import webCalendarSpring.ApplicationKt;
 
 class EventForTest {
     int id;
@@ -44,7 +48,7 @@ class EventForTest {
 }
 
 public class WebCalendarSpringTest extends SpringTest {
-    EventForTest eventForTest;
+
 
     int count = 0;
 
@@ -60,7 +64,7 @@ public class WebCalendarSpringTest extends SpringTest {
 
     private static final Gson gson = new Gson();
 
-    private static List<EventForTest> eventsList = new ArrayList<>();
+    private static final List<EventForTest> eventsList = new ArrayList<>();
     Map<String, String> justToday = Map.of(
             "event", "Today is a good Day ",
             "date", LocalDate.now().toString());
@@ -109,6 +113,97 @@ public class WebCalendarSpringTest extends SpringTest {
     Map<String, String> emptyDate10 = Map.of("date", "", "event", "New Year Party");
     Map<String, String> emptyDate11 = Map.of("event", "New Year Party", "date", "");
 
+    @DynamicTest
+    DynamicTesting[] dynamicTests = new DynamicTesting[]{
+            () -> todayEndPointTest(todayEndPoint, 200), //#1
+            () -> eventEndPointTest(eventEndPoint, 204), //#2
+
+
+            //incorrect body for Post request
+            () -> testPostEvent(emptyEvent1, 400), //#3
+            () -> testPostEvent(blankEvent2, 400), //#4
+            () -> testPostEvent(nullEvent3, 400), //#5
+            () -> testPostEvent(nullDate4, 400), //#6
+            () -> testPostEvent(emptyEventNullDate5, 400), //#7
+            () -> testPostEvent(emptyEventEmptyDate6, 400), //#8
+            () -> testPostEvent(blankDateEmptyEvent7, 400), //#9
+            () -> testPostEvent(blankDate8, 400), //#10
+            () -> testPostEvent(blankDate9, 400), //#11
+            () -> testPostEvent(emptyDate10, 400), //#12
+            () -> testPostEvent(emptyDate11, 400), //#13
+
+
+            () -> testPostEvent(justToday, 200), //#14
+            () -> testPostEvent(justToday, 200), //#15
+            () -> todayEndPointTest(todayEndPoint, 200),//#16
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#17
+
+            () -> eventEndPointTest(eventEndPoint, 200),//#18
+
+
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//19
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//20
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//21
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//22
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//23
+            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200),//24
+
+            () -> eventEndPointTest(eventEndPoint, 200),//#25
+            //this::reloadServer,//26
+            //() -> eventEndPointTest(eventEndPoint, 204),//#27
+            //() -> todayEndPointTest(todayEndPoint, 200), //#1
+    };
+
+    CheckResult todayEndPointTest(String url, int status) {
+        HttpResponse response = get(url).send();
+
+        checkStatusCode(response, status);
+
+        if (!response.getJson().isJsonArray()) {
+            return CheckResult.wrong("Wrong object in response, expected JSON Array but was \n" +
+                    response.getContent().getClass());
+
+        }
+
+        System.out.println(response.getContent() + "\n " + response.getStatusCode() +
+                "\n " + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod());
+
+
+        List<String> eventsToString;
+
+
+        eventsToString = eventsList.stream().filter(it -> it.date.equals(LocalDate.now().toString())).map(it -> it.toString()).collect(Collectors.toList());
+
+
+        eventsToString.stream().forEach(System.out::println);
+
+        String convertJsonToString = convert(eventsToString);
+        JsonArray correctJson = getJson(convertJsonToString).getAsJsonArray();
+
+        JsonArray responseJson = getJson(response.getContent()).getAsJsonArray();
+
+        if (responseJson.size() != correctJson.size()) {
+            return CheckResult.wrong("Correct json array size should be " +
+                    correctJson.size() + "\n" +
+                    "Response array size is: " + responseJson.size() + "\n");
+        }
+
+
+        for (int i = 0; i < responseJson.size(); i++) {
+
+
+            expect(responseJson.get(i).getAsJsonObject().toString()).asJson()
+                    .check(isObject()
+                            .value("id", correctJson.get(i).getAsJsonObject().get("id").getAsInt())
+                            .value("event", correctJson.get(i).getAsJsonObject().get("event").getAsString())
+                            .value("date", correctJson.get(i).getAsJsonObject().get("date").getAsString()));
+
+        }
+
+
+        return CheckResult.correct();
+    }
+
 
     private static void checkStatusCode(HttpResponse resp, int status) {
         if (resp.getStatusCode() != status) {
@@ -131,6 +226,58 @@ public class WebCalendarSpringTest extends SpringTest {
         return jsonArray.toString();
     }
 
+    CheckResult eventEndPointTest(String url, int status) {
+        HttpResponse response = get(url).send();
+
+        checkStatusCode(response, status);
+
+        if (response.getStatusCode() == 200) {
+
+            if (!response.getJson().isJsonArray()) {
+                return CheckResult.wrong("Wrong object in response, expected array of JSON but was \n" +
+                        response.getContent().getClass());
+            }
+
+            List<String> eventsToString;
+
+            eventsToString = eventsList.stream().map(it -> it.toString()).collect(Collectors.toList());
+
+            eventsToString.stream().forEach(System.out::println);
+
+            String convertJsonToString = convert(eventsToString);
+            JsonArray correctJson = getJson(convertJsonToString).getAsJsonArray();
+
+            JsonArray responseJson = getJson(response.getContent()).getAsJsonArray();
+
+            if (responseJson.size() != correctJson.size()) {
+                return CheckResult.wrong("Correct json array size should be " +
+                        correctJson.size() + "\n" +
+                        "Response array size is: " + responseJson.size() + "\n");
+            }
+
+
+            for (int i = 0; i < responseJson.size(); i++) {
+
+
+                expect(responseJson.get(i).getAsJsonObject().toString()).asJson()
+                        .check(isObject()
+                                .value("id", correctJson.get(i).getAsJsonObject().get("id").getAsInt())
+                                .value("event", correctJson.get(i).getAsJsonObject().get("event").getAsString())
+                                .value("date", correctJson.get(i).getAsJsonObject().get("date").getAsString()));
+
+            }
+
+        }
+
+
+        return CheckResult.correct();
+    }
+
+    private int randomReturn(List<Map<String, String>> list) {
+        int toReturn = (int) Math.round(Math.random() * (list.size() - 1));
+
+        return toReturn;
+    }
 
     CheckResult testPostEvent(Map<String, String> body, int status) {
 
@@ -139,8 +286,8 @@ public class WebCalendarSpringTest extends SpringTest {
         HttpResponse response = post(eventEndPoint, jsonBody).send();
         checkStatusCode(response, status);
         System.out.println(response.getContent() + "\n " + response.getStatusCode() + "\n "
-                + response.getRequest().getLocalUri() + " \n" + response.getRequest().getMethod()
-                + " \n" + response.getRequest().getContent());
+                + response.getRequest().getLocalUri() + "\n " + response.getRequest().getMethod()
+                + "\n" + response.getRequest().getContent());
         if (status == 200) {
             count++;
             EventForTest event = new EventForTest(count, body.get("event"), body.get("date"));
@@ -169,44 +316,27 @@ public class WebCalendarSpringTest extends SpringTest {
         return CheckResult.correct();
     }
 
-    private int randomReturn(List<Map<String, String>> list) {
-        int toReturn = (int) Math.round(Math.random() * (list.size() - 1));
-        System.out.println(toReturn);
-
-        return toReturn;
-    }
-
-    private String randomDate(int maxDays, int mindays) {
+    private String randomDate(int maxDays, int minDays) {
 
         LocalDate now = LocalDate.now();
 
-        return now.plusDays((int) Math.round(Math.random() * (maxDays - mindays) + mindays)).toString();
+        return now.plusDays((int) Math.round(Math.random() * (maxDays - minDays) + minDays)).toString();
     }
 
-    @DynamicTest
-    DynamicTesting[] dynamicTests = new DynamicTesting[]{
+    @Before
+    public void createEvents() {
 
+        listOfEvents.stream().forEach(System.out::println);
 
-            () -> testPostEvent(justToday, 200), //#1
-            () -> testPostEvent(justToday, 200), //#2
-            () -> testPostEvent(listOfEvents.get(randomReturn(listOfEvents)), 200), //#3
+    }
 
-
-            //incorrect body for Post request
-            () -> testPostEvent(emptyEvent1, 400), //#4
-            () -> testPostEvent(blankEvent2, 400), //#5
-            () -> testPostEvent(nullEvent3, 400), //#6
-            () -> testPostEvent(nullDate4, 400), //#7
-            () -> testPostEvent(emptyEventNullDate5, 400), //#8
-            () -> testPostEvent(emptyEventEmptyDate6, 400), //#9
-            () -> testPostEvent(blankDateEmptyEvent7, 400), //#10
-            () -> testPostEvent(blankDate8, 400), //#11
-            () -> testPostEvent(blankDate9, 400), //#12
-            () -> testPostEvent(emptyDate10, 400), //#13
-            () -> testPostEvent(emptyDate11, 400), //#14
-
-
-    };
-
+    private CheckResult reloadServer() {
+        try {
+            reloadSpring();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+        return CheckResult.correct();
+    }
 
 }

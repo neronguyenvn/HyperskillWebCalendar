@@ -1,8 +1,5 @@
 type: edu
 files:
-  - name: resources/application.properties
-    visible: true
-    learner_created: false
   - name: src/webCalendarSpring/Application.kt
     visible: true
     learner_created: false
@@ -12,6 +9,30 @@ files:
   - name: test/WebCalendarSpringTest.java
     visible: false
     learner_created: false
+  - name: src/resources/application.properties
+    visible: true
+    learner_created: true
+  - name: src/webCalendarSpring/model/Event.kt
+    visible: true
+    learner_created: true
+  - name: src/webCalendarSpring/model/AddEventResponse.kt
+    visible: true
+    learner_created: true
+  - name: src/webCalendarSpring/controller/CalendarController.kt
+    visible: true
+    learner_created: true
+  - name: src/webCalendarSpring/database/EventEntity.kt
+    visible: true
+    learner_created: true
+  - name: src/webCalendarSpring/repository/EventRepository.kt
+    visible: true
+    learner_created: true
+  - name: src/webCalendarSpring/service/EventService.kt
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/44352#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Wed, 02 Apr 2025 18:42:54 UTC"
 record: -1
