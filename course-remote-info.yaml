@@ -3,20 +3,20 @@ hyperskill_project:
   ide_files: https://hyperskill.org/api/projects/442/additional-files/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: "Mon, 31 Mar 2025 15:14:29 UTC"
+update_date: "Thu, 03 Apr 2025 06:07:56 UTC"
 stages:
   - id: 2573
     step: 44350
     is_completed: true
   - id: 2574
     step: 44351
-    is_completed: false
+    is_completed: true
   - id: 2575
     step: 44352
-    is_completed: false
+    is_completed: true
   - id: 2576
     step: 44353
-    is_completed: false
+    is_completed: true
 topics:
   0:
     - title: "Write, compile, and run"
