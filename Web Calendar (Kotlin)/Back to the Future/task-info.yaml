@@ -1,8 +1,5 @@
 type: edu
 files:
-  - name: resources/application.properties
-    visible: true
-    learner_created: false
   - name: src/webCalendarSpring/Application.kt
     visible: true
     learner_created: false
@@ -12,6 +9,19 @@ files:
   - name: test/WebCalendarSpringTest.java
     visible: false
     learner_created: false
+  - name: src/resources/application.properties
+    visible: true
+    learner_created: true
+  - name: src/webCalendarSpring/controller/CalendarController.kt
+    visible: true
+    learner_created: true
+  - name: src/webCalendarSpring/model/MessageResponse.kt
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/44353#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">Hyperskill</a>
+    to continue learning.
+  time: "Thu, 03 Apr 2025 08:42:37 UTC"
+record: 4

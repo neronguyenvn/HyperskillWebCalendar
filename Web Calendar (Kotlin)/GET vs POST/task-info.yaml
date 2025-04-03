@@ -15,15 +15,9 @@ files:
   - name: src/webCalendarSpring/controller/CalendarController.kt
     visible: true
     learner_created: true
-  - name: src/webCalendarSpring/model/Event.kt
-    visible: true
-    learner_created: true
-  - name: src/webCalendarSpring/model/AddEventResponse.kt
-    visible: true
-    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/44351#comment
 status: Solved
 feedback:
   message: Congratulations!
-  time: "Tue, 01 Apr 2025 17:51:00 UTC"
+  time: "Thu, 03 Apr 2025 07:59:50 UTC"
 record: 2

@@ -12,27 +12,12 @@ files:
   - name: src/resources/application.properties
     visible: true
     learner_created: true
-  - name: src/webCalendarSpring/model/Event.kt
-    visible: true
-    learner_created: true
-  - name: src/webCalendarSpring/model/AddEventResponse.kt
-    visible: true
-    learner_created: true
   - name: src/webCalendarSpring/controller/CalendarController.kt
-    visible: true
-    learner_created: true
-  - name: src/webCalendarSpring/database/EventEntity.kt
-    visible: true
-    learner_created: true
-  - name: src/webCalendarSpring/repository/EventRepository.kt
-    visible: true
-    learner_created: true
-  - name: src/webCalendarSpring/service/EventService.kt
     visible: true
     learner_created: true
 feedback_link: https://hyperskill.org/learn/step/44352#comment
 status: Solved
 feedback:
   message: Congratulations!
-  time: "Wed, 02 Apr 2025 18:42:54 UTC"
-record: -1
+  time: "Thu, 03 Apr 2025 08:00:10 UTC"
+record: 3
